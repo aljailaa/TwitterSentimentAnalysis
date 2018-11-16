@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+{% load staticfiles%}
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Twitter Sentiment Analysis</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="{% static "css/home.css" %}"/>
+</head>
+
+<body>
+
+ <div class = "container">
+
+		<div>
+			<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+			<script type="text/javascript">
+				google.charts.load('current', {'packages':['corechart']});
+				google.charts.setOnLoadCallback(drawChart);
+				function drawChart() {
+					var data = google.visualization.arrayToDataTable({{ data|safe }} );
+					var options = {
+						legend: {position: 'bottom', alignment: 'center', maxLines: 3},
+						slices: {
+							0: { color: '#4CAF50' },
+							1: { color: '#477998' },
+							2: { color: '#000' }
+						}
+					};
+					var chart1 = new google.visualization.PieChart(document.getElementById('piechart'));
+					chart1.draw(data, options);
+				}
+				$(window).resize(function(){
+					drawChart();
+				});
+
+			</script>
+
+				<div class = "jumbotron">
+
+					<div class = "jumbotron">
+					  <img src = "{%static "images/logo.png"%}">
+					  <h3>Twitter Sentiment Analysis and Visualization</h3>
+					  <!-- <h2>{{ template_var }}<h2> -->
+					  <script src="{% static 'js/home.js' %}"></script>
+					</div>
+
+					<form action = "/main_app/" method = "POST">
+								{% csrf_token %}
+									 <div class = "row">
+										 <div class  = "col-lg-4"></div>
+										 <div class = "col-lg-3 col-md-4">
+
+											 <div class="input-group">
+												  <span class="input-group-addon" id="basic-addon1">Hashtag</span>
+												  <input  name = "hashtag" value="{{hashtag}}" type="text" class="form-control" placeholder="Twitter #" aria-describedby="basic-addon1" required>
+											</div>
+										 </div>
+
+										 <div class = "col-lg-1 col-md-3">
+												 <button type="submit" value = "start"  name="start" class="btn btn-primary btn-lg">Start</button>
+										 </div>
+										 <div class  = "col-lg-1">
+												 <button type="submit" value = "stop" name="stop" class="btn btn-primary btn-lg">Stop</button>
+										 </div>
+										 <div class  = "col-lg-1">
+												 <button type="submit" value = "get_data" name="get_data" class="btn btn-primary btn-lg">Fetch</button>
+										 </div>
+										  <div class  = "col-lg-1">
+												 <button type="submit" value = "get_trending" name="get_trending" class="btn btn-primary btn-lg">Trendings</button>
+										 </div>
+									 </div>
+						</form>
+
+					<div class = "row" styple="display:{{display_type}} !important;">
+						<div class  = "col-lg-2"></div>
+						<div class  = "col-lg-8" align="center">
+						<p>{{hashtag}}  +  {{total}}</p>
+								<div class="col s12 m12 l12" >
+									<div id="piechart" style="width: 100%; min-height: 450px;"></div>
+								</div>
+
+						</div>
+
+							<div class  = "col-lg-2">
+								<ul>
+									{% for item in trending %}
+									<li>{{ item }}</li>
+									{% endfor %}
+								</ul>
+							</div>
+					</div>
+					<!-- Custom footer --><!-- <br><br><br><br><br><br><br><br><br><br><br><br> -->
+					<div class = "footer">
+					  <div class="navbar navbar-inverse">
+						<div class = "container">
+						  <p class = "navbar-text pull-left">TEAM A<a href = ""></a></p>
+						  <a class = "navbar-btn btn btn-primary pull-right" href = ""></a>
+						</div>
+					  </div>
+					</div>
+
+			   </div>
+
+
+	 </div>
+
+</div>
+
+</body>
+</html>
