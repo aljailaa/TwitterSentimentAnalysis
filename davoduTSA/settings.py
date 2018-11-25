@@ -18,7 +18,7 @@ SECRET_KEY = 'wdtw*3o+x61t7^+cu818r^l-^xfd08!t--e_jeg2vp@smcgih9'   # your djang
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["0.0.0.0", "192.168.2.99"]
 
 
 # Application definition
