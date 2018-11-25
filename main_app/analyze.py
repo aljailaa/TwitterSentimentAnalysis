@@ -103,7 +103,7 @@ class StreamTweets:
     __instance = None
 
     def __init__(self, text):
-        self.text = text;
+        self.text = text
         secrets = Oauth_Secrets()
         self.auth = tweepy.OAuthHandler(secrets.consumer_key, secrets.consumer_secret)
         self.auth.set_access_token(secrets.access_token, secrets.access_token_secret)
@@ -120,6 +120,8 @@ class StreamTweets:
         self.stop_streaming()
         self.myStreamListener.ardu = serial.Serial("/dev/ttyACM0" ,9600)
         self.myStreamListener.return_value = True
+        self.myStreamListener.reset()
+        self.myStreamListener.send_to_arduino("r")
         myStream = tweepy.Stream(auth=self.auth, listener=self.myStreamListener)
         if "#" in self.text:
             myStream.filter(track=[self.text], languages=["en"])
