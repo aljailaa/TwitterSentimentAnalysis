@@ -55,7 +55,7 @@ class MyStreamListener(tweepy.StreamListener):
         value = scale(blob.sentiment.polarity, [-1, 1], [0, 1]) * 100
         print("++++++++++++++++++++++++++++++++++")
         print(status.text)
-        print(value)
+        print(int(value))
         print("++++++++++++++++++++++++++++++++++")
 
         if blob.sentiment.polarity < 0:  # Negative tweets
@@ -71,7 +71,7 @@ class MyStreamListener(tweepy.StreamListener):
             self.send_to_arduino("+")
 
         self.total_tweets = self.total_tweets + 1
-        self.send_to_arduino_as_num(value)
+        self.send_to_arduino_as_num(int(value))
         # self.send_to_arduino(status.text)
 
         return self.return_value
@@ -83,7 +83,8 @@ class MyStreamListener(tweepy.StreamListener):
             return False
 
     def send_to_arduino(self, text):
-        self.ardu.write(text.encode())
+        # self.ardu.write(text.encode())
+        pass
 
     def send_to_arduino_as_num(self, num):
         self.ardu.write(struct.pack('>B', num))
